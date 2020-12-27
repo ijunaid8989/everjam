@@ -18,6 +18,10 @@ defmodule EverjamWeb.Router do
     pipe_through :browser
 
     get "/", DashboardController, :index
+    get "/add_camera", DashboardController, :new
+    post "/add_camera", DashboardController, :create
+
+    get "/camera/:name", DashboardController, :show
   end
 
   # Other scopes may use custom stacks.
