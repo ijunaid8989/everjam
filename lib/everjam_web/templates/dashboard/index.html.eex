@@ -1,0 +1,7 @@
+<div class="w-full h-64 border-dashed p-4 text-md">
+  <%= for camera <- @cameras do %>
+    <div class="box-border h-32 w-32 p-4 border-2">
+      <%= camera.name %>
+    </div>
+  <% end %>
+</div>

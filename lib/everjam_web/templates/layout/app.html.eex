@@ -1,5 +1,23 @@
-<main role="main" class="container">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-  <%= @inner_content %>
+<header class="w-24 md:w-auto bg-gray-800 p-4 justify-between items-center">
+  <nav class="flex items-center">
+    <img class="w-7 h-7" src="https://www.solarwinds.com/-/media/solarwinds/swdcv2/licensed-products/service-desk/integrations/sd-integrations-logo-jira.ashx?rev=701fbaa7f8ac4ae08e0406c8984c43e7&hash=75D4F04DE99B88DE7B2C4193F0616F1F" />
+    <div class="text-white text-xs hidden sm:block ml-2">
+      <a href="/" class="bg-gray-900 hover:bg-gray-700 p-2 rounded cursor-pointer">Everjam</a>
+    </div>
+  </nav>
+</header>
+<main class="flex w-full h-auto">
+  <aside class="w-80 h-screen bg-gray shadow-md w-fulll hidden sm:block">
+    <div class="flex flex-col justify-between h-screen p-4 bg-gray-800">
+      <div class="text-sm">
+        <a href="/add_camera"><div class="bg-gray-900 text-white p-5 rounded cursor-pointer">Add Camera</div></a>
+        <%= for camera <- Everjam.cameras() do %>
+          <div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300"><%= camera.name %></div>
+        <% end %>
+      </div>
+    </div>
+  </aside>
+  <section class="w-full p-4">
+    <%= @inner_content %>
+  </section>
 </main>

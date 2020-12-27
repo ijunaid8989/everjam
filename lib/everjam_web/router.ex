@@ -17,7 +17,7 @@ defmodule EverjamWeb.Router do
   scope "/", EverjamWeb do
     pipe_through :browser
 
-    live "/add_camera", AddCameraLive, :index
+    get "/", DashboardController, :index
   end
 
   # Other scopes may use custom stacks.
