@@ -1,7 +1,7 @@
 defmodule CamBank do
   use GenServer
 
-  def start_link(state \\ [] ) do
+  def start_link(state \\ []) do
     GenServer.start_link(__MODULE__, state)
   end
 

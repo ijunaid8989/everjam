@@ -5,11 +5,13 @@ defmodule Scaffold do
     quote generated: true, location: :keep do
       use GenServer
 
-      defmodule Attributes, do: defstruct unquote(opts)
+      defmodule Attributes, do: defstruct(unquote(opts))
 
       def start_link(state \\ %Attributes{}) do
-        GenServer.start_link(__MODULE__,
-          %Attributes{state | id: make_ref()})
+        GenServer.start_link(
+          __MODULE__,
+          %Attributes{state | id: make_ref()}
+        )
       end
 
       def init(state), do: {:ok, state}

@@ -1,6 +1,5 @@
 defmodule Everjamer do
   def request(method, url, headers \\ [], body \\ nil, opts \\ []) do
-
     Finch.build(method, url, headers, body)
     |> Finch.request(__MODULE__, opts)
     |> case do
