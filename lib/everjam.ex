@@ -4,22 +4,48 @@ defmodule Everjam do
     |> case do
       {:error, {:already_started, cam_bank}} ->
         CamBank.all(cam_bank)
-        |> Enum.map(fn(cam_pid) -> Camera.details(cam_pid) end) |> IO.inspect()
+        |> Enum.map(fn(cam_pid) -> Camera.details(cam_pid) end)
       {:ok, _cam_bank} -> []
     end
   end
 
-  def create_camera(url, username, password) do
+  def create_camera(url, username, password, auth) do
     {:ok, camera} = Camera.start_link(%Camera.Attributes{
       url: url,
       username: username,
       password: password,
       name: generate_name(),
       status: "online",
+      auth: auth,
       owner_id: 1
     })
     Process.whereis(CamBank)
     |> CamBank.add(camera)
+  end
+
+  def start_live_view(camera_name) do
+    %Camera.Attributes{
+      auth: auth,
+      name: camera_name,
+      owner_id: 1,
+      password: password,
+      status: "online",
+      url: url,
+      username: username
+    } = get_camera_from_bank(camera_name)
+  end
+
+  def get_camera_from_bank(camera_name) do
+    Process.whereis(CamBank)
+    |> CamBank.all()
+    |> Enum.filter(fn(cam_pid) ->
+      %Camera.Attributes{
+        name: name
+      } = Camera.details(cam_pid)
+      name == camera_name
+    end)
+    |> List.first()
+    |> Camera.details()
   end
 
   defp generate_name() do
