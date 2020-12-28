@@ -33,3 +33,21 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+let cameraExid = window.location.href.substr(window.location.href.lastIndexOf('/') + 1)
+console.log(cameraExid)
+if (cameraExid != "add_camera" &&  cameraExid != "") {
+  let socket = new Socket("/socket", {
+    logger: ((kind, msg, data) => { console.log(`${kind}: ${msg}`, data) })
+  })
+  socket.connect()
+  let channel = socket.channel("stream:" + cameraExid, {camera: cameraExid})
+
+  channel
+    .join()
+    .receive("ignore", () => console.log("error"))
+    .receive("ok", () => console.log("join ok"))
+
+  channel.on("new_msg", (data) => {
+    console.log(data)
+  })
+}
