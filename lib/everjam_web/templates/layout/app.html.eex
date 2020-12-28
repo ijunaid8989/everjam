@@ -12,7 +12,9 @@
       <div class="text-sm">
         <a href="/add_camera"><div class="bg-gray-900 text-white p-5 rounded cursor-pointer">Add Camera</div></a>
         <%= for camera <- Everjam.cameras() do %>
-          <div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300"><%= camera.name %></div>
+          <a href="/cameras/<%= camera.name %>">
+            <div class="bg-gray-900 text-white p-2 rounded mt-2 cursor-pointer hover:bg-gray-700 hover:text-blue-300"><%= camera.name %></div>
+          </a>
         <% end %>
       </div>
     </div>

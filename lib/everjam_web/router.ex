@@ -21,7 +21,7 @@ defmodule EverjamWeb.Router do
     get "/add_camera", DashboardController, :new
     post "/add_camera", DashboardController, :create
 
-    get "/camera/:name", DashboardController, :show
+    get "/cameras/:camera_name", DashboardController, :show
   end
 
   # Other scopes may use custom stacks.
