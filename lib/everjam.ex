@@ -17,22 +17,13 @@ defmodule Everjam do
       name: generate_name(),
       status: "online",
       auth: auth,
-      owner_id: 1
+      owner_id: 1,
+      sleep: 1000 * 5
     })
+    detailed_camera = Camera.details(camera)
+    DynamicSupervisor.start_child(Recording.Supervisor, {Recording.Worker, %{id: String.to_atom(detailed_camera.name), camera: detailed_camera, sleep: detailed_camera.sleep}})
     Process.whereis(CamBank)
     |> CamBank.add(camera)
-  end
-
-  def start_live_view(camera_name) do
-    %Camera.Attributes{
-      auth: auth,
-      name: camera_name,
-      owner_id: 1,
-      password: password,
-      status: "online",
-      url: url,
-      username: username
-    } = get_camera_from_bank(camera_name)
   end
 
   def get_camera_from_bank(camera_name) do
