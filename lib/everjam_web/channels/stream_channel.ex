@@ -11,7 +11,6 @@ defmodule EverjamWeb.StreamChannel do
   @impl true
   def handle_info({:after_join, camera_name}, socket) do
     # start streaming
-    Streamer.start(camera_name)
     IO.inspect(camera_name)
     {:noreply, socket}
   end
