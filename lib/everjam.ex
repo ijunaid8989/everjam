@@ -22,10 +22,10 @@ defmodule Everjam do
       sleep: 1000
     })
     detailed_camera = Camera.details(camera)
-    Supervisor.start_child(Recording.Worker, %{id: String.to_atom(detailed_camera.name), camera: detailed_camera, sleep: detailed_camera.sleep})
-    Supervisor.start_child(JpegBank, String.to_atom("storage_#{detailed_camera.name}"))
+    Supervisor.start_child(Recording.WorkerStarter, %{id: String.to_atom(detailed_camera.name), camera: detailed_camera, sleep: detailed_camera.sleep}) |> IO.inspect
+    Supervisor.start_child(JpegBank, String.to_atom("storage_#{detailed_camera.name}")) |> IO.inspect
     Process.whereis(CamBank)
-    |> CamBank.add(camera)
+    |> CamBank.add(camera) |> IO.inspect
   end
 
   def get_camera_from_bank(camera_name) do

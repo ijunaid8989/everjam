@@ -9,7 +9,8 @@ defmodule Everjam.Application do
       {Phoenix.PubSub, name: Everjam.PubSub},
       EverjamWeb.Endpoint,
       {Finch, name: Everjamer},
-      {DynamicSupervisor, strategy: :one_for_one, name: General.Supervisor}
+      {DynamicSupervisor, strategy: :one_for_one, name: General.Supervisor},
+      # {Recording.Supervisor, []}
     ]
 
     opts = [strategy: :one_for_one, name: Everjam.Supervisor]
