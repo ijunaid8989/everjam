@@ -16,8 +16,8 @@ defmodule EverjamWeb.DashboardController do
     |> redirect(to: "/")
   end
 
-  def show(conn, %{"camera_name" => _camera_name} = _params) do
+  def show(conn, %{"camera_name" => camera_name} = _params) do
     # Everjam.start_live_view(camera_name)
-    render(conn, "show.html")
+    render(conn, "show.html", camera: camera_name)
   end
 end
