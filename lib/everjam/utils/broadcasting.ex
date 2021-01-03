@@ -1,5 +1,7 @@
 defmodule Broadcasting do
-  def stream(camera_name, image, timestamp) do
+  require Logger
+
+  def stream(true, camera_name, image, timestamp) do
     EverjamWeb.Endpoint.broadcast(
       "stream:" <> camera_name,
       "new_image",
@@ -10,6 +12,8 @@ defmodule Broadcasting do
       }
     )
   end
+
+  def stream(false, _camera_name, _image, _timestamp), do: :noop
 
   def any_one_wacthing?(camera_name) do
     Registry.lookup(Everjam.PubSub, "stream:#{camera_name}")
