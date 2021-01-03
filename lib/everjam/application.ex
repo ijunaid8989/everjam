@@ -7,10 +7,29 @@ defmodule Everjam.Application do
     children = [
       EverjamWeb.Telemetry,
       {Phoenix.PubSub, name: Everjam.PubSub},
+      {ConCache,
+       [ttl_check_interval: :timer.seconds(0.1), global_ttl: :timer.seconds(2.5), name: :cache]},
+      Supervisor.child_spec(
+        {ConCache,
+         [
+           ttl_check_interval: :timer.seconds(0.1),
+           global_ttl: :timer.minutes(1),
+           name: :camera_lock
+         ]},
+        id: :camera_lock
+      ),
+      Supervisor.child_spec(
+        {ConCache,
+         [
+           ttl_check_interval: :timer.seconds(1),
+           global_ttl: :timer.hours(1),
+           name: :do_camera_request
+         ]},
+        id: :do_camera_request
+      ),
       EverjamWeb.Endpoint,
       {Finch, name: Everjamer},
-      {DynamicSupervisor, strategy: :one_for_one, name: General.Supervisor},
-      # {Recording.Supervisor, []}
+      {DynamicSupervisor, strategy: :one_for_one, name: General.Supervisor}
     ]
 
     opts = [strategy: :one_for_one, name: Everjam.Supervisor]

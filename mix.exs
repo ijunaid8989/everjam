@@ -45,7 +45,8 @@ defmodule Everjam.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       # external libs
-      {:finch, "~> 0.6.0"}
+      {:finch, "~> 0.6.0"},
+      {:con_cache, "~> 0.14.0"}
     ]
   end
 
