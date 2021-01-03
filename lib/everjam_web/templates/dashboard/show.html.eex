@@ -1,1 +1,6 @@
 camera
+<%= @camera %>
+
+<div id="<%= @camera %>-timestamp"></div>
+
+<img id="<%= @camera %>-image" src="" />
