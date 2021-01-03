@@ -11,4 +11,13 @@ defmodule General.Supervisor do
   @impl DynamicSupervisor
   def init(opts),
     do: DynamicSupervisor.init(strategy: :one_for_one, extra_arguments: [opts])
+
+  def terminate(name) do
+    String.to_atom(name)
+    |> Process.whereis()
+    |> case do
+      nil -> :not_found
+      pid -> DynamicSupervisor.terminate_child(__MODULE__, pid)
+    end
+  end
 end
