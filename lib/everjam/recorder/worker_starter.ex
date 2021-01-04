@@ -17,8 +17,10 @@ defmodule Recording.WorkerStarter do
   def handle_info(:request, state) do
     schedule_fetch_call(state.sleep)
     ping_time_state = Map.put(state, :running, %{datetime: DateTime.utc_now(), worker: true})
+
     ConCache.get(:do_camera_request, state.camera.name)
     |> shoot_a_request(ping_time_state, Recording.Worker)
+
     {:noreply, ping_time_state}
   end
 
@@ -47,10 +49,12 @@ defmodule Recording.WorkerStarter do
     do: {:reply, state, state}
 
   def am_running?(nil), do: false
+
   def am_running?(pid) do
     %{
-      running: %{worker: running},
+      running: %{worker: running}
     } = GenServer.call(pid, :get)
+
     running
   end
 

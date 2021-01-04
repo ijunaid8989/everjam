@@ -15,14 +15,18 @@ defmodule Recording.Worker do
       {:failed, _requested_at} ->
         ConCache.put(:do_camera_request, state.camera.name, true)
         {:stop, :shutdown, state}
+
       {body, requested_at} ->
         %{datetime: requested_at}
         |> put_it_in_jpeg_bank(state.camera.name)
+
         requested_at
         |> Calendar.strftime("#{state.camera.name}/snapshots/%Y/%m/%d/%H_%M_%S.jpg")
         |> Everjamer.post("http://localhost:8888/", body)
+
         Broadcasting.any_one_wacthing?(state.camera.name)
         |> Broadcasting.stream(state.camera.name, body, requested_at)
+
         ConCache.put(:do_camera_request, state.camera.name, true)
         {:stop, :normal, state}
     end
@@ -34,6 +38,7 @@ defmodule Recording.Worker do
 
   defp make_jpeg_request(camera, requested_at) do
     headers = get_request_headers(camera.auth, camera.username, camera.password)
+
     Everjamer.request(:get, camera.url, headers)
     |> get_body_size(requested_at)
   end

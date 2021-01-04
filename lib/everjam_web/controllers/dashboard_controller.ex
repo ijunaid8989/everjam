@@ -9,8 +9,12 @@ defmodule EverjamWeb.DashboardController do
     render(conn, "new.html")
   end
 
-  def create(conn, %{"url" => url, "username" => username, "password" => password, "auth" => auth} = _params) do
+  def create(
+        conn,
+        %{"url" => url, "username" => username, "password" => password, "auth" => auth} = _params
+      ) do
     Everjam.create_camera(url, username, password, auth)
+
     conn
     |> put_flash(:info, "Camera added successfully.")
     |> redirect(to: "/")
