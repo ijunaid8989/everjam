@@ -25,6 +25,5 @@ defmodule EverjamWeb.StreamChannel do
       sleep: 1000,
       streaming: true
     })
-    |> IO.inspect()
   end
 end

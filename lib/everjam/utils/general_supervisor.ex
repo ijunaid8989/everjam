@@ -13,7 +13,7 @@ defmodule General.Supervisor do
     do: DynamicSupervisor.init(strategy: :one_for_one, extra_arguments: [opts])
 
   def terminate(name) do
-    String.to_atom(name)
+    name
     |> Process.whereis()
     |> case do
       nil -> :not_found
