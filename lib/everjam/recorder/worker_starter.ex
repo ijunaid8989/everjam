@@ -4,12 +4,12 @@ defmodule Recording.WorkerStarter do
   require Logger
 
   def start_link(opts) do
-    IO.inspect("Started Recording.WorkerStarter")
     {id, opts} = Map.pop!(opts, :id)
     GenServer.start_link(__MODULE__, opts, name: id)
   end
 
   def init(state) do
+    Process.flag(:trap_exit, true)
     schedule_fetch_call(state.sleep)
     {:ok, state}
   end
@@ -43,6 +43,21 @@ defmodule Recording.WorkerStarter do
 
   def get_state(pid) do
     GenServer.call(pid, :get)
+  end
+
+  def terminate(_reason, state) do
+    case Broadcasting.any_one_wacthing?(state.camera.name) do
+      true ->
+        General.Supervisor.start_child(Streamer.StreamStarter, %{
+          id: String.to_atom("#{state.camera.name <> "_streamer"}"),
+          camera: state.camera,
+          sleep: 1000,
+          streaming: true
+        })
+
+      false ->
+        :noop
+    end
   end
 
   def handle_call(:get, _from, state),
