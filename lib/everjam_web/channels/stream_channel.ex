@@ -22,7 +22,7 @@ defmodule EverjamWeb.StreamChannel do
     General.Supervisor.start_child(Streamer.StreamStarter, %{
       id: String.to_atom("#{camera.name <> "_streamer"}"),
       camera: camera,
-      sleep: 1000,
+      sleep: 5_000,
       streaming: true
     })
   end
