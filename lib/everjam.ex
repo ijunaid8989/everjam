@@ -23,7 +23,7 @@ defmodule Everjam do
         status: "online",
         auth: auth,
         owner_id: 1,
-        sleep: 1000
+        sleep: 5000
       })
 
     detailed_camera = Camera.details(camera)

@@ -47,7 +47,7 @@ if (cameraExid != "add_camera" &&  cameraExid != "") {
     .receive("ignore", () => console.log("error"))
     .receive("ok", () => console.log("join ok"))
 
-  channel.on("new_image", (data) => {
-    document.getElementById(data.camera_name + "-image").src = "data:image/jpeg;base64, " + data.image
+  channel.on("shout", (data) => {
+    console.log(data)
   })
 }
